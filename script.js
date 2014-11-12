@@ -94,11 +94,16 @@ function draw(obj) {
 }
 
 function render() {
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth-220;
   clear();
+  // canvas.height = window.innerHeight;
 
   for (var i=0; i<state.objects.length; i++) {
     draw(state.objects[i]);
   }
+
+  // 
 
 }
 
