@@ -16,9 +16,18 @@ var canvas = document.getElementById('thecanvas'),
      KICK_AMOUNT = 20,
      KICK_INTERVAL = 10000,
      RUN_INTERVAL = 40,
-     BOUNCINESS = 1,
+     BOUNCINESS = 0.9,
 
      colors = [ "red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "white" ];
+
+
+     for (var i =  0; i <= 100; i++) {
+       state.objects.push({
+        style : colors[Math.floor(Math.random()*colors.length)],
+        pos   : { x : getRandomX(), y : getRandomY() },
+        vel   : { x : 4,   y : -10 }
+       })
+     };
 
 
 function getRandomY () {
@@ -30,23 +39,23 @@ function getRandomX () {
 }
 
 function bound(obj) {
-  var bottom = canvas.height - RADIUS - 1,
+  var bottom = canvas.height - RADIUS,
       top    = 0 + RADIUS,
       left   = 0 + RADIUS,
       right  = canvas.width - RADIUS - 1;
 
 
 
-  if (obj.pos.y + RADIUS >= bottom) {
+  if (obj.pos.y >= bottom) {
     obj.pos.y = bottom;
-    obj.vel.y = 0 - Math.floor(obj.vel.y / (1 / BOUNCINESS) );
+    obj.vel.y = -Math.abs(0 - Math.floor(obj.vel.y / (1 / BOUNCINESS) ));
   } else {
     gravity(obj);
   }
 
   if (obj.pos.y < top) {
-    obj.pos.y = top;
-    obj.vel.y = Math.floor(0 - obj.vel.y);
+    obj.pos.y = top+RADIUS;
+    obj.vel.y = Math.floor(Math.abs(0 - obj.vel.y));
   }
 
   if (obj.pos.x >= right) {
@@ -96,7 +105,6 @@ function render() {
 function go () {
   setInterval(run, RUN_INTERVAL);
   setInterval(kick, KICK_INTERVAL);
-
 }
 
 function run () {
@@ -117,7 +125,7 @@ function getRand() {
     var direction = Math.random() > 0.5 ? 1 : -1,
         amount    = Math.floor(Math.random()*KICK_AMOUNT)+10;
 
-    console.log(direction * amount);
+    // console.log(direction * amount);
     return direction * amount;
 
 }
@@ -130,6 +138,8 @@ function kick () {
   }
     state.objects.push(JSON.parse(JSON.stringify(state.objects[state.objects.length-1])));
     state.objects[state.objects.length-1].style = colors[Math.floor(Math.random()*colors.length)];
+    document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
 }
 
 render();
+go();
