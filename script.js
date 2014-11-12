@@ -25,17 +25,17 @@ var canvas = document.getElementById('thecanvas'),
        state.objects.push({
         style : colors[Math.floor(Math.random()*colors.length)],
         pos   : { x : getRandomX(), y : getRandomY() },
-        vel   : { x : 4,   y : -10 }
+        vel   : { x : (Math.random()*10)+4,   y : -((Math.random()*10)+10) }
        })
      };
 
 
 function getRandomY () {
-  return Math.floor( Math.random()*(canvas.height - RADIUS - 1));
+  return Math.floor( Math.random()*(canvas.height/4 - RADIUS - 1)+canvas.height/4*3);
 }
 
 function getRandomX () {
-  return Math.floor( Math.random()* (canvas.width - RADIUS - 1) );
+  return Math.floor( Math.random()* (canvas.width/4 - RADIUS - 1) );
 }
 
 function bound(obj) {
@@ -123,7 +123,7 @@ function run () {
 
 function getRand() {
     var direction = Math.random() > 0.5 ? 1 : -1,
-        amount    = Math.floor(Math.random()*KICK_AMOUNT)+10;
+        amount    = Math.floor(Math.random()*KICK_AMOUNT)+20;
 
     // console.log(direction * amount);
     return direction * amount;
@@ -133,7 +133,7 @@ function getRand() {
 function kick () {
   for (var i=0; i<state.objects.length; i++) {
     state.objects[i].vel.x += getRand();
-    state.objects[i].vel.y -= Math.abs(getRand());
+    state.objects[i].vel.y -= Math.abs(getRand())+10;
 
   }
     state.objects.push(JSON.parse(JSON.stringify(state.objects[state.objects.length-1])));
